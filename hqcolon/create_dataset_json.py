@@ -12,8 +12,7 @@ import os
 import json
 import argparse
 
-BASE = 'nnunet_raw'  # ronja local
-# BASE = '/home/bgn595/nnunet/nnunet_raw'  # ronja cluster path -> adapt this to your path
+BASE = 'nnunet_raw'
 
 
 def get_files(dataset, split, labels):

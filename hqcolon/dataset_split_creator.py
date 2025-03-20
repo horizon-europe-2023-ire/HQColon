@@ -10,9 +10,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
-# HOME_ERDA = 'Z:\IRE-DATA\CT'  # Ronja windows
-# HOME_ERDA = '/home/bgn595/data/'  # This should be the CT folder on ERDA (cluster Ronja)
-HOME_ERDA = '/home/amin/ucph-erda-home/IRE-DATA/CT'  # Ronja linux path
+HOME_ERDA = '/home/amin/ucph-erda-home/IRE-DATA/CT'  # Path to ERDA
 
 
 def plot_histogram(df, column_to_plot, show=False):

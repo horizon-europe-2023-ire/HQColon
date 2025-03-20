@@ -13,7 +13,6 @@ python nnunet_dataset.py DatasetXXX_<name>
 or let it run using the shellscript
 """
 import shutil
-
 import SimpleITK as sitk
 import os
 import tempfile
@@ -23,9 +22,7 @@ import numpy as np
 from helper import decompress_gzip, move_file, add_surrounding
 from pathlib import Path
 
-# ERDA_DIR = 'Z:\IRE-DATA\CT'  # Ronja windows
-ERDA_DIR = '/home/amin/ucph-erda-home/IRE-DATA/CT'  # Ronja linux path
-# ERDA_DIR = '/home/bgn595/data/'  # ronja cluster
+ERDA_DIR = '/home/amin/ucph-erda-home/IRE-DATA/CT'  # Path to ERDA
 
 
 def get_files_in_subfolders(parent_path):
