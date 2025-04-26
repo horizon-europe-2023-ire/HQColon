@@ -11,8 +11,9 @@ python create_dataset_json.py <datasetname>
 import os
 import json
 import argparse
+from pathlib import Path
 
-BASE = 'nnunet_raw'
+BASE = os.path.join(Path(__file__).resolve().parent.parent, 'nnunet_raw')
 
 
 def get_files(dataset, split, labels):
@@ -44,29 +45,15 @@ test_files = get_files(dataset, split, False)
 
 json_file_path = os.path.join(BASE, f'{dataset}/dataset.json')
 
-data = {
-    "name": dataset,
-    "channel_names": {
-        "0": "CT"
-    },
-    "modality": {
-        "0": "CT"
-    },
-    "labels": {
-        "background": 0,
-        "colon": 1
-    },
-    "file_ending": ".mha",
-    "dataset_name": dataset,
-    "license": "",
-    "description": "",
-    "reference": ""
-}
-
-data['training'] = train_files
-data['numTraining'] = len(train_files)
-#data['test'] = test_files
-#data['numTest'] = len(test_files)
+data = {"name": dataset, "channel_names": {
+    "0": "CT"
+}, "modality": {
+    "0": "CT"
+}, "labels": {
+    "background": 0,
+    "colon": 1
+}, "file_ending": ".mha", "dataset_name": dataset, "license": "", "description": "", "reference": "",
+        'training': train_files, 'numTraining': len(train_files)}
 
 with open(json_file_path, 'w') as json_file:
     json.dump(data, json_file)

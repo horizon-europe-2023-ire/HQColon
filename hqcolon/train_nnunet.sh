@@ -4,7 +4,7 @@
 export nnUNet_raw="./nnunet_raw"  # Base directory for raw dataset
 export nnUNet_preprocessed="./nnUNet_preprocessed"     # Directory for preprocessed data
 export nnUNet_results="./nnunet_results"          # Directory to store trained model results
-export dataset_name="Dataset001_test"       # Name of the dataset
+export dataset_name="Dataset001_fluidä_masked"       # Name of the dataset
 export dataset_number="001"                             # Dataset number
 export fold=0                            # Fold number
 
