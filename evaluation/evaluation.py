@@ -230,13 +230,14 @@ def evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir):
 
 def evaluate_dataset(dataset):
     biggest_island = False
-    gt_dir = os.path.join('..', 'model', 'nnunet', 'nnunet_raw', dataset, 'labelsTs')
-    pred_dir = os.path.join('..', 'model', 'nnunet', 'nnunet_results', dataset, 'predictions')
-    results_dir = os.path.join('..', 'model', 'nnunet', 'nnunet_results', dataset)
+    gt_dir = os.path.join('..', 'nnunet_raw', dataset, 'labelsTs')
+    pred_dir = os.path.join('..', 'nnunet_results', dataset, 'predictions')
+    results_dir = os.path.join('..', 'nnunet_results', dataset)
     evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir)
 
     biggest_island = True
     evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir)
+
 
 if __name__ == '__main__':
     # put here the names of your datasets that you want to evaluate. Ensure to follow the expected file hierarchy.
