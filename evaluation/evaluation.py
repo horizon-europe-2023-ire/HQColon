@@ -18,7 +18,7 @@ from MetricsReloaded.metrics.pairwise_measures import BinaryPairwiseMeasures as 
 from MetricsReloaded.metrics.pairwise_measures import MultiClassPairwiseMeasures as MPM
 import json
 import argparse
-
+from scipy.stats import bootstrap
 
 
 def get_border_img(img):
@@ -206,11 +206,17 @@ def evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir):
     medians = np.median(df.to_numpy(), axis=0)
     stds = np.std(df.to_numpy(), axis=0)
 
+    ci = bootstrap((df.to_numpy(),), np.median, confidence_level=0.95, n_resamples=10000, method='percentile')
+    ci_low = ci.confidence_interval.low
+    ci_high = ci.confidence_interval.high
+
     # Create the metrics summary DataFrame
     metrics_summary = pd.DataFrame({
         "Metric": df.columns,
-        "Mean": means,
         "Median": medians,
+        "CI Low": ci_low,
+        "CI High": ci_high,
+        "Mean": means,
         "Std": stds,
     }).reset_index(drop=True)
 
@@ -236,15 +242,6 @@ def evaluate_dataset(dataset):
     biggest_island = True
     evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir)
 
-
-# if __name__ == '__main__':
-#     # put here the names of your datasets that you want to evaluate. Ensure to follow the expected file hierarchy.
-#     datasets = [
-#         "Dataset001_fluid_masked",
-#     ]
-#
-#     for dataset in datasets:
-#         evaluate_dataset(dataset)
 
 parser = argparse.ArgumentParser(description="Update dataset JSON with training and testing files.")
 parser.add_argument("dataset", type=str, help="Name of the dataset directory (e.g., Dataset003_fluid)")

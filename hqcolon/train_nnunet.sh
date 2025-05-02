@@ -4,8 +4,8 @@
 export nnUNet_raw="../nnunet_raw"  # Base directory for raw dataset
 export nnUNet_preprocessed="../nnUNet_preprocessed"     # Directory for preprocessed data
 export nnUNet_results="../nnunet_results"          # Directory to store trained model results
-export dataset_name="Dataset002_fluid"       # Name of the dataset
-export dataset_number="002"                             # Dataset number
+export dataset_name="Dataset001_fluid_masked"       # Name of the dataset
+export dataset_number="001"                             # Dataset number
 export fold=0                            # Fold number
 export input_path_to_test_dir="$nnUNet_raw/$dataset_name/imagesTs"
 export output_path_to_predictions="$nnUNet_results/$dataset_name/predictions"
@@ -29,6 +29,8 @@ nnUNetv2_train $dataset_number 3d_fullres $fold -tr nnUNetTrainer
 # -num_gpus all: Utilizes all available GPUs for training.
 # --c: Enables checkpointing during training, allowing you to continue from the latest checkpoint if it exists.
 
-# Run evaluation on the trained model
+# Predictions for test set
 nnUNetv2_predict -i $input_path_to_test_dir -o $output_path_to_predictions -d $dataset_number -c 3d_fullres -f $fold -chk checkpoint_best.pth --verbose
 
+# evaluate predictions and compute metrics
+python ../evaluation/evaluation.py $dataset_name
