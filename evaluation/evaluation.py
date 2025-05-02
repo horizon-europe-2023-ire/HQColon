@@ -7,7 +7,7 @@ If the results already exist, evaluation will be skipped to avoid unnecessary co
 import sys
 import pandas as pd
 sys.path.append('/home/amin/MetricsReloaded')
-# sys.path.append('C:/Users/ronja/Documents/GitHub/MetricsReloaded')
+
 import numpy as np
 from scipy.ndimage import binary_dilation
 import os
@@ -17,6 +17,8 @@ from MetricsReloaded.processes.overall_process import ProcessEvaluation as PE
 from MetricsReloaded.metrics.pairwise_measures import BinaryPairwiseMeasures as PM
 from MetricsReloaded.metrics.pairwise_measures import MultiClassPairwiseMeasures as MPM
 import json
+import argparse
+
 
 
 def get_border_img(img):
@@ -235,15 +237,20 @@ def evaluate_dataset(dataset):
     evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir)
 
 
-if __name__ == '__main__':
-    # put here the names of your datasets that you want to evaluate. Ensure to follow the expected file hierarchy.
-    datasets = [
-        "Dataset001_fluid_masked",
-    ]
+# if __name__ == '__main__':
+#     # put here the names of your datasets that you want to evaluate. Ensure to follow the expected file hierarchy.
+#     datasets = [
+#         "Dataset001_fluid_masked",
+#     ]
+#
+#     for dataset in datasets:
+#         evaluate_dataset(dataset)
 
-    for dataset in datasets:
-        evaluate_dataset(dataset)
+parser = argparse.ArgumentParser(description="Update dataset JSON with training and testing files.")
+parser.add_argument("dataset", type=str, help="Name of the dataset directory (e.g., Dataset003_fluid)")
+args = parser.parse_args()
+dataset = args.dataset
+print(f"Create dataset.json file for: {dataset}")
 
-
-
+evaluate_dataset(dataset)
 
