@@ -19,7 +19,7 @@ import argparse
 import pandas as pd
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent  # Adjust `.parent` as needed
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def copy_file(source_path, destination_path):

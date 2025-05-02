@@ -143,7 +143,7 @@ def calc_metrics_for_file(file, biggest_island, pred_dir, gt_dir):
         results['DICE'] = dice
 
         return results
-    print(f"Skipping {file} because it doen't exist")
+    print(f"Skipping {file} because it doesn't exist")
     return None
 
 
@@ -180,12 +180,6 @@ def evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir):
         print(f"Evaluation of {dataset} using Biggest Islands")
 
     for file in files:
-        if len(df) >= 145:
-            if biggest_island:
-                print(f"Results already exist: {results_dir}/island_results.jsonl")
-            else:
-                print(f"Results already exist: {results_dir}/results_details.jsonl")
-            return True
         if i % 10 == 0:
             print(f"Processing file {i}/{num_files}")
         i += 1
@@ -228,9 +222,11 @@ def evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir):
     metrics_summary.to_json(os.path.join(results_dir, filename), orient='records', lines=True)
     return True
 
+
 def evaluate_dataset(dataset):
     biggest_island = False
-    gt_dir = os.path.join('..', 'nnunet_raw', dataset, 'labelsTs')
+    # gt_dir = os.path.join('..', 'nnunet_raw', dataset, 'labelsTs')
+    gt_dir = os.path.join('..', 'nnunet_raw', 'Dataset002_fluid', 'labelsTs')
     pred_dir = os.path.join('..', 'nnunet_results', dataset, 'predictions')
     results_dir = os.path.join('..', 'nnunet_results', dataset)
     evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir)
@@ -242,7 +238,7 @@ def evaluate_dataset(dataset):
 if __name__ == '__main__':
     # put here the names of your datasets that you want to evaluate. Ensure to follow the expected file hierarchy.
     datasets = [
-        "Dataset101_regiongrowing_qc",
+        "Dataset001_fluid_masked",
     ]
 
     for dataset in datasets:

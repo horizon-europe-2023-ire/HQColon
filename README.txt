@@ -53,6 +53,9 @@ For use of the out-of-the-box segmentation algorithm install nnunetv2:
 ```
 pip install nnunetv2
 ```
+
+make sure dependecies like pip install blosc2 are installed
+
 This also directly installs SimpleITK. Installing SimpleITK before installing nnunetv2 might lead to problems. Use the following command to install SimpleITK separately:
 
 ```

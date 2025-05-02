@@ -1,7 +1,7 @@
 # This script is used to create a dataset from training and prediction in the expected nnUNet hierarchy.
 
 # Note than any dataset name needs to start with DatasetXXX_<name> where XXX are 3 unique digits and name can be replaced by anything
-dataset="Dataset002_fluid " # change this to the name of your new dataset
+dataset="Dataset002_fluid" # change this to the name of your new dataset
 
 # here we split the created name mappings into test and train resulting in two seperated files.
 # for this file crucial are properties used for splitting like: Position, Sex or subject_id
