@@ -4,8 +4,8 @@
 export nnUNet_raw="../nnunet_raw"  # Base directory for raw dataset
 export nnUNet_preprocessed="../nnUNet_preprocessed"     # Directory for preprocessed data
 export nnUNet_results="../nnunet_results"          # Directory to store trained model results
-export dataset_name="Dataset004_air"       # Name of the dataset
-export dataset_number="004"                             # Dataset number
+export dataset_name="Dataset001_test"       # Name of the dataset
+export dataset_number="001"                             # Dataset number
 export fold=0                            # Fold number
 export input_path_to_test_dir="$nnUNet_raw/$dataset_name/imagesTs"
 export output_path_to_predictions="$nnUNet_results/$dataset_name/predictions"
@@ -19,14 +19,18 @@ echo "dataset number: $dataset_number"
 echo "input_path_to_test_dir: $input_path_to_test_dir"
 echo "output_path_to_predictions: $output_path_to_predictions"
 
+# split the dataset into test and train
+python dataset_split_creator.py
 
-## here we create the local dataset the following flags can be set:
-## --masked: mask images, else we use the original images using the dilated totalsegmentator segmentation
-## --fluid: add fluid labels to existing air labels
-#python prepare_dataset.py $dataset_name
-#
-## this creates an additional file in the dataset folder, needed by the nnunet to configure the dataset
-#python create_dataset_json.py $dataset_name
+# here we create the local dataset the following flags can be set:
+# --masked: mask images, else we use the original images using the dilated totalsegmentator segmentation
+# --fluid: add fluid labels to existing air labels
+python prepare_dataset.py $dataset_name
+
+# this creates an additional file in the dataset folder, needed by the nnunet to configure the dataset
+# set flag --masked if you want to mask the input images using TotalSegmentator masks
+# set flag --fluid if you want the fluid to be included in your segmentations
+python create_dataset_json.py $dataset_name --masked --fluid
 
 # Run preprocessing and verify dataset integrity
 nnUNetv2_plan_and_preprocess -d $dataset_number --verify_dataset_integrity -c 3d_fullres

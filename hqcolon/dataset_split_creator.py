@@ -35,7 +35,7 @@ def plot_histogram(df, column_to_plot, show=False):
 
 
 def load_data():
-    mapping_df = pd.read_json(os.path.join(BASE_DIR, 'data', 'name_mapping.json'), lines=True)
+    mapping_df = pd.read_json(os.path.join(BASE_DIR, 'data', 'meta-data.json'), lines=True)
     plot_histogram(mapping_df, 'Sex')
     plot_histogram(mapping_df, 'Position')
     mapping_df['Sex'] = mapping_df['Sex'].replace({'U': 'Not available', 'O': 'Not available'})
