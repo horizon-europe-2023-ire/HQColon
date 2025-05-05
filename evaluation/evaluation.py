@@ -233,8 +233,7 @@ def evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir):
 
 def evaluate_dataset(dataset):
     biggest_island = False
-    # gt_dir = os.path.join('..', 'nnunet_raw', dataset, 'labelsTs')
-    gt_dir = os.path.join('..', 'nnunet_raw', 'Dataset002_fluid', 'labelsTs')
+    gt_dir = os.path.join('..', 'nnunet_raw', dataset, 'labelsTs')
     pred_dir = os.path.join('..', 'nnunet_results', dataset, 'predictions')
     results_dir = os.path.join('..', 'nnunet_results', dataset)
     evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir)

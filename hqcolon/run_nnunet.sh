@@ -4,8 +4,8 @@
 export nnUNet_raw="../nnunet_raw"  # Base directory for raw dataset
 export nnUNet_preprocessed="../nnUNet_preprocessed"     # Directory for preprocessed data
 export nnUNet_results="../nnunet_results"          # Directory to store trained model results
-export dataset_name="Dataset001_fluid_masked"       # Name of the dataset
-export dataset_number="001"                             # Dataset number
+export dataset_name="Dataset004_air"       # Name of the dataset
+export dataset_number="004"                             # Dataset number
 export fold=0                            # Fold number
 export input_path_to_test_dir="$nnUNet_raw/$dataset_name/imagesTs"
 export output_path_to_predictions="$nnUNet_results/$dataset_name/predictions"
@@ -18,6 +18,15 @@ echo "dataset: $dataset_name"
 echo "dataset number: $dataset_number"
 echo "input_path_to_test_dir: $input_path_to_test_dir"
 echo "output_path_to_predictions: $output_path_to_predictions"
+
+
+## here we create the local dataset the following flags can be set:
+## --masked: mask images, else we use the original images using the dilated totalsegmentator segmentation
+## --fluid: add fluid labels to existing air labels
+#python prepare_dataset.py $dataset_name
+#
+## this creates an additional file in the dataset folder, needed by the nnunet to configure the dataset
+#python create_dataset_json.py $dataset_name
 
 # Run preprocessing and verify dataset integrity
 nnUNetv2_plan_and_preprocess -d $dataset_number --verify_dataset_integrity -c 3d_fullres
