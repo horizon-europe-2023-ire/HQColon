@@ -81,15 +81,16 @@ sys.path.append('/path/to/MetricsReloaded')
 
 ### Installation of visualization tools
 
-To use nnUNet the data needs to be saved in a very specific hierarchy and naming convention. Check instructions [here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/setting_up_paths.md).
-
-Last install ITK-Snap or 3D Slicer as visualization tools.
+Install ITK-Snap or 3D Slicer as visualization tools.
 * [http://www.itksnap.org/pmwiki/pmwiki.php](http://www.itksnap.org/pmwiki/pmwiki.php)
 * [https://www.slicer.org/](https://www.slicer.org/)
 
 ## Example Usage
 
 You can either train your own hqcolon nnunet or use existing checkpoints to predict the segmentation for your colons. For both tasks it is crucial to have your data in the expected format.
+
+To use nnUNet the data needs to be saved in a very specific hierarchy and naming convention. Check instructions [here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/setting_up_paths.md).
+
 
 ### Train your own network
 
