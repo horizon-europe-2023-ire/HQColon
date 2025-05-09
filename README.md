@@ -28,7 +28,7 @@ Please cite the [following paper](https://arxiv.org/abs/2502.21183) when using H
 
 HQColon has been developed on Linux (Ubuntu).
 
-Please check hardware requirements of nnUNet for training: [Hardware Requirements](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/installation_instructions.md)
+Please check hardware requirements of nnUNet before installing it: [Hardware Requirements](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/installation_instructions.md)
 
 ### Installation of nnUNet
 
