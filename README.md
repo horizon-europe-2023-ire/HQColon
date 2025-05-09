@@ -102,7 +102,7 @@ Save all .mha files in the folder data/CTC Scans.
 Now you should have CTC Scans, Segmentation Air, Segmentation Air and Fluid and Masks TotalSegmentator and the meta-data.json in your data folder.
 
 You can now specify what dataset configuration you want to use to train your nnunet. To do that open the run_nnunet.sh file in the hqcolon directory.
-- Alter the name of your dataset and model in line 7. Remember that the name needs to have format DatasetXXX_<name> where XXX are 3 unique digits (you have only one dataset / model at the same time with the same unique digits).
+- Alter the name of your dataset and model in line 7. Remember that the name needs to have format DatasetXXX_name where XXX are 3 unique digits (you have only one dataset / model at the same time with the same unique digits).
 - Once you updated the dataset name you need to put your unique 3 digits in line 8 as dataset_numnber. Those two numbers must be the same for the pipeline to work smoothly.
 - In line 33 define whether you want to use flags --masked an / or --fluid. If masked is set then the input images will be masked using the dilated masks in data/Masks TotalSegmentatr. If flag fluid is set, the model will segment both air and fluid.
 
@@ -112,8 +112,8 @@ This script will first split your dataset into train and test splits (adapt file
 ### Predict segmentations using a pre-trained model
 
 Download the model checkpoints from ....
-Find a datasetname in nnunet formal like: DatasetXXX_<name> where XXX are exactly 3 digits and name is any name of your choice.
-Create new folders: nnunet_results/DatasetXXX_<name>/nnUNetTrainer__nnUNetPlans__3d_fullres/fold_0/.
+Find a datasetname in nnunet formal like: DatasetXXX_name where XXX are exactly 3 digits and name is any name of your choice.
+Create new folders: nnunet_results/DatasetXXX_name/nnUNetTrainer__nnUNetPlans__3d_fullres/fold_0/.
 Unzip your model checkpoints and move them into the folder above.
 
 Adapt file predict.sh:
