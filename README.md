@@ -2,6 +2,8 @@
 
 HQColon is a tool for high-resolution segmentation of the colon from CT Colonography scans. This model aims to segment both air filled and fluid pockets to cover the whole volume of the colon.
 
+In this repository you will find code to either train your own model using your own data or to use one of our pre-trained models to predict segmentations for your CT Colonography scans. In both cases you will need to install nnunetv2 and other necessary libraries listed below.
+
 ![HQColon Segmentation examples!](/assets/segmentation-examples.png "HQColon Segmentation examples")
 
 ## Citation
@@ -112,13 +114,16 @@ This script will first split your dataset into train and test splits (adapt file
 ### Predict segmentations using a pre-trained model
 
 Download the model checkpoints from ....
-Find a datasetname in nnunet formal like: DatasetXXX_name where XXX are exactly 3 digits and name is any name of your choice.
+Find a datasetname in nnunet formal like: DatasetXXX_name where XXX are exactly 3 digits and name is any name of your choice. This dataset name and the belonging digit is crucial to identify the model that should be loaded. This name has nothing to do with the data you want to predict segmentations for. It is part of the nnunet internal logic. See more here: [here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/setting_up_paths.md).
 Create new folders: nnunet_results/DatasetXXX_name/nnUNetTrainer__nnUNetPlans__3d_fullres/fold_0/.
 Unzip your model checkpoints and move them into the folder above.
 
 Adapt file predict.sh:
 - Alter the name of your dataset and model in line 7. Remember that the name needs to have format DatasetXXX_name where XXX are 3 unique digits (you have only one dataset / model at the same time with the same unique digits).
 - Once you updated the dataset name you need to put your unique 3 digits in line 8 as dataset_numnber. Those two numbers must be the same for the pipeline to work smoothly.
+- Alter in line 10 input_path_to_test_dir: the path where your data is stored (the CTC scans for with you would like to get some predictions). By default it is set to the paths used in HQColon.
+- Alter in line 11 output_path_to_predictions: the path where you want to save predictions. By default it is set to the paths used in HQColon.
+- Line 23 adapt checkpoint-best.pth to your model filename which is saved in your nnunet_results/DatasetXXX_name/nnUNetTrainer__nnUNetPlans__3d_fullres/fold_0/ folder.
 
 ## Acknowledgments
 
