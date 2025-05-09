@@ -98,7 +98,7 @@ To use nnUNet the data needs to be saved in a very specific hierarchy and naming
 
 Go to the [IRE OSF project](https://osf.io/8tkpm/) and download all zip files. Unzip all folders locally and create a new folder data in this repository where all unzipped folders should be move.
 
-Further download the corresponding dicom images from [The Cancer Imaging Archive](https://www.cancerimagingarchive.net/collection/ct-colonography/#citations). Use the meta-data.json file on OSF to know which series to download from the TCIA. The field "InstanceUID" indicates the unique TCIA scan.
+Further download the corresponding dicom images from the CT Colonography dataset from the [The Cancer Imaging Archive](https://www.cancerimagingarchive.net/collection/ct-colonography/#citations). Use the meta-data.json file on OSF to know which series to download from the TCIA. The field "InstanceUID" indicates the unique TCIA scan.
 Save all .mha files in the folder data/CTC Scans.
 
 Now you should have CTC Scans, Segmentation Air, Segmentation Air and Fluid and Masks TotalSegmentator and the meta-data.json in your data folder.
