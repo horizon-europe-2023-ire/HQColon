@@ -117,7 +117,7 @@ Create new folders: nnunet_results/DatasetXXX_name/nnUNetTrainer__nnUNetPlans__3
 Unzip your model checkpoints and move them into the folder above.
 
 Adapt file predict.sh:
-- Alter the name of your dataset and model in line 7. Remember that the name needs to have format DatasetXXX_<name> where XXX are 3 unique digits (you have only one dataset / model at the same time with the same unique digits).
+- Alter the name of your dataset and model in line 7. Remember that the name needs to have format DatasetXXX_name where XXX are 3 unique digits (you have only one dataset / model at the same time with the same unique digits).
 - Once you updated the dataset name you need to put your unique 3 digits in line 8 as dataset_numnber. Those two numbers must be the same for the pipeline to work smoothly.
 
 ## Acknowledgments
