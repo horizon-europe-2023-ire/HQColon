@@ -2,7 +2,7 @@
 
 HQColon is a tool for high-resolution segmentation of the colon from CT Colonography scans. This model aims to segment both air filled and fluid pockets to cover the whole volume of the colon.
 
-In this repository you will find code to either train your own model using your own data or to use one of our pre-trained models to predict segmentations for your CT Colonography scans. In both cases you will need to install nnunetv2 and other necessary libraries listed below.
+In this repository you will find code to either train your own nnunetv2 model using your own data or to use one of our pre-trained models to predict segmentations for your CT Colonography scans. In both cases you will need to install nnunetv2 and other necessary libraries listed below.
 
 ![HQColon Segmentation examples!](/assets/segmentation-examples.png "HQColon Segmentation examples")
 
