@@ -155,7 +155,7 @@ Your `data/` folder should eventually include:
 
 #### Step 3: Configure the Training Script
 
-Open the file `run_hqcolon.sh` in the root of the repository and make the following changes:
+Open the file `run_hqcolon.sh` in the hqcolon folder of the repository and make the following changes:
 
 - **Line 7**: Set your dataset name using the format `DatasetXXX_name` (replace `XXX` with a unique 3-digit ID).
 - **Line 8**: Set `dataset_number=XXX` (must match the digits used in Line 7).
