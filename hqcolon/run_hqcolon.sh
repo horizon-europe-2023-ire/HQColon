@@ -20,7 +20,7 @@ echo "input_path_to_test_dir: $input_path_to_test_dir"
 echo "output_path_to_predictions: $output_path_to_predictions"
 
 ## split the dataset into test and train
-#python dataset_split_creator.py
+python dataset_split_creator.py
 
 # here we create the local dataset the following flags can be set:
 # --masked: mask images, else we use the original images using the dilated totalsegmentator segmentation
