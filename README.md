@@ -1,10 +1,25 @@
 # HQColon
 
-HQColon is a tool for high-resolution segmentation of the colon from CT Colonography scans. This model aims to segment both air filled and fluid pockets to cover the whole volume of the colon.
+**HQColon** is a high-resolution colon segmentation tool for CT Colonography scans. It segments both air-filled and fluid-filled parts of the colon, enabling accurate volume extraction for research and clinical applications.
 
-In this repository you will find code to either train your own nnunetv2 model using your own data or to use one of our pre-trained models to predict segmentations for your CT Colonography scans. In both cases you will need to install nnunetv2 and other necessary libraries listed below.
+This repository provides:
+- Code to train your own model using `nnUNetV2`
+- Tools to apply pre-trained models to your data
+- Instructions for setting up your environment and visualizing results
 
 ![HQColon Segmentation examples!](/assets/segmentation-examples.png "HQColon Segmentation examples")
+
+---
+
+## 🔗 Quick Links
+- [Citation](#citation)
+- [Installation](#installation)
+- [Example Usage](#example-usage)
+  - [Train Your Own Network](#train-your-own-network)
+  - [Predict with Pre-Trained Model](#predict-segmentations-using-a-pre-trained-model)
+- [Acknowledgments](#acknowledgments)
+
+---
 
 ## Citation
 
@@ -24,6 +39,8 @@ Please cite the [following paper](https://arxiv.org/abs/2502.21183) when using H
     }
 </html>
 
+---
+
 ## Installation
 
 ### Operating System
@@ -34,31 +51,34 @@ Please check hardware requirements of nnUNet before installing it: [Hardware Req
 
 ### Installation of nnUNet
 
-First set up a CUDA:
+First set up a CUDA and PYTorch:
 
-1. Load the cuda modul you want to use e.g. module load cuda/11.8
-2. Install Pytorch according to what cuda module you loaded: [pytorch]https://pytorch.org/get-started/locally/
+1. Load a compatible CUDA version: Example: module load cuda/11.8
+2. Install PyTorch based on your CUDA version: [pytorch]https://pytorch.org/get-started/locally/
 
-Set up a virtual environment similar to the one below:
+Create a Virtual Environment
 
 ``` Console
 conda create -n HQColon python=3.9 -y
 conda activate HQColon      
-conda install numpy     
-conda install scipy     
-conda install matplotlib
-conda install paraview
+conda install numpy scipy matplotlib paraview
 ```
 
-For use of the out-of-the-box segmentation algorithm install nnunetv2:
+Install nnUNetV2
 
 ```
 pip install nnunetv2
 ```
 
-make sure dependecies like pip install blosc2 are installed
+Ensure required dependencies (e.g., blosc2) are installed:
 
-This also directly installs SimpleITK. Installing SimpleITK before installing nnunetv2 might lead to problems. Use the following command to install SimpleITK separately:
+```
+pip install blosc2
+```
+
+Install SimpleITK
+
+Install only after nnunetv2:
 
 ```
 conda install -c conda-forge simpleitk
@@ -69,13 +89,13 @@ For more information check the documentation of [nnUNet](https://github.com/MIC-
 
 ### Install MetricsReload
 
-In order to use the evaluation script MetricsRedload has to be installed.
+Used for model evaluation.
 
 1. Check out the website: https://github.com/Project-MONAI/MetricsReloaded
 
-2. Clone the GitHub repository
+2. Clone it locally.
 
-3. On top of the evaluation (evaluation.py) script add the path to your local MetricsReload repository:
+3. Add its path in your evaluation.py:
 ```
 import sys
 sys.path.append('/path/to/MetricsReloaded')
@@ -83,47 +103,140 @@ sys.path.append('/path/to/MetricsReloaded')
 
 ### Installation of visualization tools
 
-Install ITK-Snap or 3D Slicer as visualization tools.
+Install ITK-Snap or 3D Slicer as visualization tools. This step is not mandatory but a help to verify segmentation results.
 * [http://www.itksnap.org/pmwiki/pmwiki.php](http://www.itksnap.org/pmwiki/pmwiki.php)
 * [https://www.slicer.org/](https://www.slicer.org/)
 
+---
+
 ## Example Usage
 
-You can either train your own hqcolon nnunet or use existing checkpoints to predict the segmentation for your colons. For both tasks it is crucial to have your data in the expected format.
-
-To use nnUNet the data needs to be saved in a very specific hierarchy and naming convention. Check instructions [here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/setting_up_paths.md).
+You can either train your own hqcolon nnunet or use existing checkpoints to predict the segmentation for your colons. For both tasks it is crucial to have your data in the expected format. To use nnUNet the data must be stored in a very specific hierarchy and naming convention. Check instructions:[here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/setting_up_paths.md).
 
 
 ### Train your own network
 
-Go to the [IRE OSF project](https://osf.io/8tkpm/) and download all zip files. Unzip all folders locally and create a new folder data in this repository where all unzipped folders should be move.
+In this example, we will use **435 colon segmentations** from the HQColon paper as training and test data.
 
-Further download the corresponding dicom images from the CT Colonography dataset from the [The Cancer Imaging Archive](https://www.cancerimagingarchive.net/collection/ct-colonography/#citations). Use the meta-data.json file on OSF to know which series to download from the TCIA. The field "InstanceUID" indicates the unique TCIA scan.
-Save all .mha files in the folder data/CTC Scans.
+#### Step 1: Download Training Data
 
-Now you should have CTC Scans, Segmentation Air, Segmentation Air and Fluid and Masks TotalSegmentator and the meta-data.json in your data folder.
+- Visit the [IRE OSF Project](https://osf.io/8tkpm/) and **download all zip files**.
+- Unzip all folders locally.
+- Create a folder named `data/` inside this repository and move all unzipped folders into it.
 
-You can now specify what dataset configuration you want to use to train your nnunet. To do that open the run_nnunet.sh file in the hqcolon directory.
-- Alter the name of your dataset and model in line 7. Remember that the name needs to have format DatasetXXX_name where XXX are 3 unique digits (you have only one dataset / model at the same time with the same unique digits).
-- Once you updated the dataset name you need to put your unique 3 digits in line 8 as dataset_numnber. Those two numbers must be the same for the pipeline to work smoothly.
-- In line 33 define whether you want to use flags --masked an / or --fluid. If masked is set then the input images will be masked using the dilated masks in data/Masks TotalSegmentatr. If flag fluid is set, the model will segment both air and fluid.
+Your `data/` folder should eventually include:
 
-This script will first split your dataset into train and test splits (adapt file dataset_split_creator.py to change splitting logic). Then it will create the dataset by copying and renaming the needed files from the data folder. Last it will prepare the dataset (nnunetv2 logic) and train and validate after. In a final step the model predicts segmentations for our test set and evaluates those predictions using the ground truth labels.
+- `CTC Scans/`
+- `Segmentation Air/`
+- `Segmentation Air and Fluid/`
+- `Masks TotalSegmentator/`
+- `meta-data.json`
 
+#### Step 2: Download CT Scans
 
-### Predict segmentations using a pre-trained model
+- Go to the [CT Colonography dataset on TCIA](https://www.cancerimagingarchive.net/collection/ct-colonography/#citations).
+- Use the `meta-data.json` from the OSF project to find the correct series. Look for the `InstanceUID` field to identify each scan.
+- Convert and save all relevant DICOMs as `.mha` files in:  
+  `data/CTC Scans/`
 
-Download the model checkpoints from ....
-Find a datasetname in nnunet formal like: DatasetXXX_name where XXX are exactly 3 digits and name is any name of your choice. This dataset name and the belonging digit is crucial to identify the model that should be loaded. This name has nothing to do with the data you want to predict segmentations for. It is part of the nnunet internal logic. See more here: [here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/setting_up_paths.md).
-Create new folders: nnunet_results/DatasetXXX_name/nnUNetTrainer__nnUNetPlans__3d_fullres/fold_0/.
-Unzip your model checkpoints and move them into the folder above.
+#### Step 3: Configure the Training Script
 
-Adapt file predict.sh:
-- Alter the name of your dataset and model in line 7. Remember that the name needs to have format DatasetXXX_name where XXX are 3 unique digits (you have only one dataset / model at the same time with the same unique digits).
-- Once you updated the dataset name you need to put your unique 3 digits in line 8 as dataset_numnber. Those two numbers must be the same for the pipeline to work smoothly.
-- Alter in line 10 input_path_to_test_dir: the path where your data is stored (the CTC scans for with you would like to get some predictions). By default it is set to the paths used in HQColon.
-- Alter in line 11 output_path_to_predictions: the path where you want to save predictions. By default it is set to the paths used in HQColon.
-- Line 23 adapt checkpoint-best.pth to your model filename which is saved in your nnunet_results/DatasetXXX_name/nnUNetTrainer__nnUNetPlans__3d_fullres/fold_0/ folder.
+Open the file `run_hqcolon.sh` in the root of the repository and make the following changes:
+
+- **Line 7**: Set your dataset name using the format `DatasetXXX_name` (replace `XXX` with a unique 3-digit ID).
+- **Line 8**: Set `dataset_number=XXX` (must match the digits used in Line 7).
+- **Line 33**: Optional flags:
+  - `--masked`: use dilated masks from `Masks TotalSegmentator/` to preprocess input.
+  - `--fluid`: segment both air and fluid regions.
+
+### What the Script Does
+
+The `run_hqcolon.sh` script performs the following steps:
+
+1. **Splits** your dataset into training and  test sets stratified by sex and age, keeping patients grouped by split.
+   *(To modify this logic, edit `dataset_split_creator.py`)*
+
+2. **Creates the dataset** by copying and renaming required files from your `data/` directory.
+
+3. **Prepares** the dataset using nnUNetV2's internal logic.
+
+4. **Trains and validates** the model using the provided data.
+
+5. **Predicts** segmentations on the test set.
+
+6. **Evaluates** the model's predictions against ground truth labels.
+
+---
+
+### Predict Segmentations Using a Pre-Trained Model
+
+We provide **four different pre-trained HQColon models**.  
+Each model was trained using the same train/test split and input images.  
+The models differ in two ways:
+
+1. Whether the original input image was **masked** using **dilated TotalSegmentator masks**.
+2. Whether the model was trained to segment only the **air-filled** part or both **air and fluid-filled** parts of the colon.
+
+#### Model Comparison Table
+
+| Checkpoint Name      | Labels Segmented | Input Type       | Dataset Name            |
+|----------------------|------------------|------------------|-------------------------|
+| `air.pth`            | Air              | Original image   | Dataset001_air          |
+| `air-masked.pth`     | Air              | Masked image     | Dataset002_air-masked   |
+| `fluid.pth`          | Air & Fluid      | Original image   | Dataset003_fluid        |
+| `fluid-masked.pth`   | Air & Fluid      | Masked image     | Dataset004_fluid-masked |
+
+#### Step 1: Download Model Checkpoints
+
+- Download the pre-trained model checkpoints from the official source (link to be provided).
+- Use a dataset name with the format `DatasetXXX_name`, where:
+  - `XXX` is a 3-digit unique ID (e.g., `123`)
+  - `name` is a descriptive label (e.g., `hqcolon_airfluid`)
+
+> This dataset name is used **only** for model identification within nnUNet. It does not need to match your input data name.
+
+More info: [Setting up paths in nnUNet](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/setting_up_paths.md)
+
+#### Step 2: Organize Model Files
+
+Create the following folder structure:
+nnunet_results/
+└── DatasetXXX_name/
+└── nnUNetTrainer__nnUNetPlans__3d_fullres/
+└── fold_0/
+└── checkpoint_best.pth
+
+- Replace DatasetXXX_name with your chosen dataset name (e.g., Dataset123_hqcolon).
+- Move the downloaded checkpoint_best.pth file into the fold_0/ directory.
+
+#### Step 3: Edit the Prediction Script (predict.sh)
+
+Open the predict.sh file and modify the following lines:
+
+- **Line 7** – Set the dataset name: DATASET_NAME="Dataset123_hqcolon"
+
+- **Line 8** – Set the matching dataset number: DATASET_NUMBER=123
+
+- **Line 10** – Set the path to your input test data (e.g., the CTC scans): input_path_to_test_dir="/path/to/data/CTC Scans"
+
+- **Line 11** – Set the output directory for saving predictions: output_path_to_predictions="/path/to/output/predictions"
+
+- **Line 23** – Confirm the correct checkpoint file name: --checkpoint_name checkpoint_best.pth
+
+#### Step 4: Run the Script
+
+Make the script executable and run it:
+
+```
+chmod +x predict.sh
+predict.sh
+```
+
+### What the Script Does
+
+1. **Predicts** segmentations on your data set.
+
+---
 
 ## Acknowledgments
 
