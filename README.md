@@ -7,6 +7,20 @@ This repository provides:
 - Tools to apply pre-trained models to your data
 - Instructions for setting up your environment and visualizing results
 
+Further we included the original results of the HQColon trained nnunetv2 models. We include results for 4 different dataset configurations. The configurations differ in:
+
+1. **Input Type**: Whether the original input image was **masked** using **dilated TotalSegmentator masks**.
+2. **Label**: Whether the model was trained to segment only the **air-filled** part or both **air and fluid-filled** parts of the colon.
+
+| Labels           | Input Type       | Dataset Name                             |
+|------------------|------------------|------------------------------------------|
+| Air              | Original image   | Dataset101_regiongrowing_qc              |
+| Air              | Masked image     | Dataset102_regiongrowing_qc_masked       |
+| Air & Fluid      | Original image   | Dataset105_regiongrowing_qc_fluid        |
+| Air & Fluid      | Masked image     | Dataset106_regiongrowing_qc_fluid_masked |
+
+In the following you can see a visiual representation of our results using the Dataset105_regiongrowing_qc_fluid dataset. In that figure a comparison with Totalsegmentator is included.
+
 ![HQColon Segmentation examples!](/assets/segmentation-examples.png "HQColon Segmentation examples")
 
 ---
