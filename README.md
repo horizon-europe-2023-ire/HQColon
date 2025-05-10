@@ -174,12 +174,12 @@ We provide **four different pre-trained HQColon models**.
 Each model was trained using the same train/test split and input images.  
 The models differ in two ways:
 
-1. Whether the original input image was **masked** using **dilated TotalSegmentator masks**.
-2. Whether the model was trained to segment only the **air-filled** part or both **air and fluid-filled** parts of the colon.
+1. **Input Type**: Whether the original input image was **masked** using **dilated TotalSegmentator masks**.
+2. **Label**: Whether the model was trained to segment only the **air-filled** part or both **air and fluid-filled** parts of the colon.
 
 #### Model Comparison Table
 
-| Checkpoint Name      | Labels Segmented | Input Type       | Dataset Name            |
+| Checkpoint Name      | Labels           | Input Type       | Dataset Name            |
 |----------------------|------------------|------------------|-------------------------|
 | `air.pth`            | Air              | Original image   | Dataset001_air          |
 | `air-masked.pth`     | Air              | Masked image     | Dataset002_air-masked   |
