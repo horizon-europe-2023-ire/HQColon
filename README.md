@@ -167,7 +167,7 @@ Open the file `run_hqcolon.sh` in the hqcolon folder of the repository and make 
 
 The `run_hqcolon.sh` script performs the following steps:
 
-1. **Splits** your dataset into training and  test sets stratified by sex and age, keeping patients grouped by split.
+1. **Splits** your dataset into training and  test sets stratified by sex and position, keeping patients grouped by split.
    *(To modify this logic, edit `dataset_split_creator.py`)*
 
 2. **Creates the dataset** by copying and renaming required files from your `data/` directory.
