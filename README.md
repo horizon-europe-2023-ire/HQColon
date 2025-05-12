@@ -3,34 +3,23 @@
 **HQColon** is a high-resolution colon segmentation tool for CT Colonography scans. It can segment both air-filled or air- and fluid-filled parts of the colon, enabling accurate volume extraction for research and clinical applications.
 
 This repository provides:
+- Original HQColon results
 - Code to train your own segmentation model using `nnUNetV2`
 - Tools to apply pre-trained models to your data
 - Instructions for setting up your environment and visualizing results
 
-Further we included the original results of the HQColon trained nnunetv2 models. We include results for 4 different dataset configurations. All models were trained as binary segmentation models, where we only distinguish between background and segmentation, not also between different segmentation labels. The dataset configurations differ in:
-
-1. **Input Type**: Whether the original input image was **masked** using **dilated TotalSegmentator masks**.
-2. **Label**: Whether the model was trained to segment only the **air-filled** part or both **air and fluid-filled** parts of the colon.
-
-| Labels           | Input Type       | Dataset Name                             |
-|------------------|------------------|------------------------------------------|
-| Air              | Original image   | Dataset101_regiongrowing_qc              |
-| Air              | Masked image     | Dataset102_regiongrowing_qc_masked       |
-| Air & Fluid      | Original image   | Dataset105_regiongrowing_qc_fluid        |
-| Air & Fluid      | Masked image     | Dataset106_regiongrowing_qc_fluid_masked |
-
-Below is a visual representation of our results using an nnunetv2 model trained on the 105_regiongrowing_qc_fluid dataset. A comparison with Totalsegmentator is included in this figure.
-
 ![HQColon Segmentation examples!](/assets/segmentation-examples.png "HQColon Segmentation examples")
+On top is a visual representation of our results using an nnunetv2 model trained on the 105_regiongrowing_qc_fluid dataset. A comparison with Totalsegmentator is included in this figure.
 
 ---
 
-## 🔗 Quick Links
+## Quick Links
 - [Citation](#citation)
 - [Installation](#installation)
 - [Example Usage](#example-usage)
   - [Train Your Own Network](#train-your-own-network)
   - [Predict with Pre-Trained Model](#predict-segmentations-using-a-pre-trained-model)
+- [Original HQColon results](#original-hqcolon-results)
 - [Acknowledgments](#acknowledgments)
 
 ---
@@ -200,6 +189,8 @@ The models differ in two ways:
 | `fluid.pth`          | Air & Fluid      | Original image   | Dataset003_fluid        |
 | `fluid-masked.pth`   | Air & Fluid      | Masked image     | Dataset004_fluid-masked |
 
+We recommend working with model `fluid.pth`.
+
 #### Step 1: Download Model Checkpoints
 
 - Download the pre-trained model checkpoints from the official source (link to be provided).
@@ -249,6 +240,87 @@ chmod +x predict.sh
 ### What the Script Does
 
 1. **Predicts** segmentations on your data set.
+
+---
+
+## Original HQColon Results
+
+We provide the original evaluation results for four HQColon-trained nnUNetv2 models. All models were trained for binary segmentation: distinguishing only between background and segmentation, without differentiating between multiple segmentation classes.
+
+The four dataset configurations differ along two key dimensions:
+1. Input Type: Whether the input image was masked using dilated TotalSegmentator masks or left unmasked.
+2. Label Type: Whether the model segments only air-filled regions or both air and fluid-filled regions of the colon.
+
+### Dataset Configurations Overview
+
+| Labels           | Input Type       | Dataset Name                             |
+|------------------|------------------|------------------------------------------|
+| Air              | Original image   | Dataset101_regiongrowing_qc              |
+| Air              | Masked image     | Dataset102_regiongrowing_qc_masked       |
+| Air & Fluid      | Original image   | Dataset105_regiongrowing_qc_fluid        |
+| Air & Fluid      | Masked image     | Dataset106_regiongrowing_qc_fluid_masked |
+
+**We recommend working wiht the model trained on Dataset105_regiongrowing_qc_fluid.**
+
+### Results Folder: `original hqcolon results`
+
+This folder includes:
+
+- All four dataset configurations listed above  
+- Comparative evaluations using **TotalSegmentator** colon segmentations  
+  - Both for **air** and **air + fluid** segmentation  
+
+We applied **two evaluation strategies**:
+- **Postprocessed Evaluation**: Removes small segmentation artifacts and retains only large connected regions ("islands"). This approach showed improved reliability.
+- **Raw Evaluation**: Uses the raw output predictions without postprocessing.
+
+### Result Files
+
+Each evaluation strategy produces the following files:
+
+| **Filename**                   | **Description**                                         |
+|-------------------------------|----------------------------------------------------------|
+| `island_results.jsonl`        | Postprocessed results across the full dataset            |
+| `island_results_details.jsonl`| Postprocessed results per individual sample              |
+| `results.jsonl`               | Raw segmentation results across the full dataset         |
+| `results_details.jsonl`       | Raw results per individual sample                        |
+
+### Evaluation Metrics
+
+
+In our evaluation, we focus on a comprehensive set of metrics to assess model performance.
+
+#### Per-Sample Metrics
+
+These metrics are computed for each individual test sample and are stored in the `*_details.jsonl` files:
+
+- **Confusion Matrix**: True Positives (TP), True Negatives (TN), False Positives (FP), False Negatives (FN)
+- **Accuracy**
+- **Matthews Correlation Coefficient (MCC)**
+- **Average Symmetric Surface Distance (ASSD)**
+- **Mean Absolute Surface Distance (MASS)**
+- **Normalized Surface Dice (NSD)**
+- **Intersection over Union (IoU)**
+- **Hausdorff 95% Percentile (HD_perc)**
+- **Hausdorff Distance (HD)**
+- **Dice Coefficient**
+
+
+For evaluating performance across the entire test set, we focus on the following spatial metrics:
+
+- **ASSD**
+- **MASS**
+- **Hausdorff 95% Percentile**
+- **Hausdorff Distance**
+
+For each of these, we report the following statistical summaries:
+
+- **Median**
+- **Confidence Interval of the Median** (CI Low, CI High)
+- **Mean**
+- **Standard Deviation**
+
+All aggregated results are reported in the respective `*.jsonl` summary files.
 
 ---
 
