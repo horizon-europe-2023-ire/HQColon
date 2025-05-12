@@ -205,33 +205,34 @@ def evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir):
     if 'file' in df.columns:
         df = df.drop(columns=["file"])
 
-    # Calculate the mean, median, and standard deviation using numpy
-    means = np.mean(df.to_numpy(), axis=0)
-    medians = np.median(df.to_numpy(), axis=0)
-    stds = np.std(df.to_numpy(), axis=0)
-
-    ci = bootstrap((df.to_numpy(),), np.median, confidence_level=0.95, n_resamples=10000, method='percentile')
-    ci_low = ci.confidence_interval.low
-    ci_high = ci.confidence_interval.high
-
-    # Create the metrics summary DataFrame
-    metrics_summary = pd.DataFrame({
-        "Metric": df.columns,
-        "Median": medians,
-        "CI Low": ci_low,
-        "CI High": ci_high,
-        "Mean": means,
-        "Std": stds,
-    }).reset_index(drop=True)
-
-    with pd.option_context('display.float_format', '{:.4f}'.format):
-        print("Summary (Mean and Std):")
-        print(metrics_summary)
-
-    filename = 'results.jsonl'
-    if biggest_island:
-        filename = 'island_results.jsonl'
-    metrics_summary.to_json(os.path.join(results_dir, filename), orient='records', lines=True)
+    if len(df) >= 2:
+        # Calculate the mean, median, and standard deviation using numpy
+        means = np.mean(df.to_numpy(), axis=0)
+        medians = np.median(df.to_numpy(), axis=0)
+        stds = np.std(df.to_numpy(), axis=0)
+    
+        ci = bootstrap((df.to_numpy(),), np.median, confidence_level=0.95, n_resamples=10000, method='percentile')
+        ci_low = ci.confidence_interval.low
+        ci_high = ci.confidence_interval.high
+    
+        # Create the metrics summary DataFrame
+        metrics_summary = pd.DataFrame({
+            "Metric": df.columns,
+            "Median": medians,
+            "CI Low": ci_low,
+            "CI High": ci_high,
+            "Mean": means,
+            "Std": stds,
+        }).reset_index(drop=True)
+    
+        with pd.option_context('display.float_format', '{:.4f}'.format):
+            print("Summary (Mean and Std):")
+            print(metrics_summary)
+    
+        filename = 'results.jsonl'
+        if biggest_island:
+            filename = 'island_results.jsonl'
+        metrics_summary.to_json(os.path.join(results_dir, filename), orient='records', lines=True)
     return True
 
 
