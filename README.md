@@ -243,7 +243,7 @@ Make the script executable and run it:
 
 ```
 chmod +x predict.sh
-predict.sh
+. predict.sh
 ```
 
 ### What the Script Does
