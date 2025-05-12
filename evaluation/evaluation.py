@@ -6,6 +6,10 @@ If the results already exist, evaluation will be skipped to avoid unnecessary co
 
 import sys
 import pandas as pd
+from pathlib import Path
+import os
+
+BASE = Path(__file__).resolve().parent.parent
 sys.path.append('/home/amin/MetricsReloaded')
 
 import numpy as np
@@ -233,9 +237,9 @@ def evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir):
 
 def evaluate_dataset(dataset):
     biggest_island = False
-    gt_dir = os.path.join('..', 'nnunet_raw', dataset, 'labelsTs')
-    pred_dir = os.path.join('..', 'nnunet_results', dataset, 'predictions')
-    results_dir = os.path.join('..', 'nnunet_results', dataset)
+    gt_dir = os.path.join(BASE, 'nnunet_raw', dataset, 'labelsTs')
+    pred_dir = os.path.join(BASE, 'nnunet_results', dataset, 'predictions')
+    results_dir = os.path.join(BASE, 'nnunet_results', dataset)
     evaluate(dataset, biggest_island, gt_dir, pred_dir, results_dir)
 
     biggest_island = True
