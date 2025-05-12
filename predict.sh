@@ -22,5 +22,5 @@ echo "output_path_to_predictions: $output_path_to_predictions"
 # Predictions for test set
 nnUNetv2_predict -i $input_path_to_test_dir -o $output_path_to_predictions -d $dataset_number -c 3d_fullres -f $fold -chk checkpoint_best.pth --verbose
 
-# evaluate predictions and compute metrics
-python evaluation/evaluation.py $dataset_name
+## evaluate predictions and compute metrics
+# python evaluation/evaluation.py $dataset_name
