@@ -237,11 +237,21 @@ chmod +x predict.sh
 . predict.sh
 ```
 
+#### Step 3: Rename Data files
+
+Make sure your data files have the nnunetv2 filename format. For example files can be named: colon_XXX_0000.mha, where XXX is a unique digit. It is crucial you have the same ending (here 0000.mha) as in the trained model. 
+
 ### What the Script Does
 
 1. **Predicts** segmentations on your data set.
 
 ---
+
+### Optional Evaluation
+
+In case you have ground truth data for your images, include the in the folder nnunet_raw/<dataset_name>/labelsTs with the correct nnunet filenames. Here a name like colon_XXX.mha is expected.
+
+Note: This will only work if you have more than 1 sample.
 
 ## Original HQColon Results
 
