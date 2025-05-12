@@ -256,4 +256,4 @@ predict.sh
 
 Created by members of the [Image Section of the University of Copenhagen](https://di.ku.dk/english/research/image/) as part of the [Horizon Europe 2023 Intelligent Robotic Endoscopes (IRE)](https://ire4health.eu/) project.
 
-For any questions and feedback please contact: martina.finocchiaro@di.ku.dk
+For any questions and feedback please contact: Martina Finocchiaro (martina.finocchiaro.mf@gmail.com).
